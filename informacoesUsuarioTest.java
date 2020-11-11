@@ -1,5 +1,7 @@
 package tests;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -11,16 +13,22 @@ import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 
 public class informacoesUsuarioTest {
-    @Test
-    public void testAdicionarUmaInformacaoAdicionalDoUsuario() {
+    private WebDriver navegador; // exposing the variable "navegador" to all methods of this class
+
+    @Before
+    public void setUp() {
         //opening the browser
         System.setProperty("webdriver.chrome.driver", "C:\\Users\\allys\\drivers\\chromedriver.exe");
-        WebDriver navegador = new ChromeDriver();
+        navegador = new ChromeDriver();
         navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS); //define a time-out, then the webdriver won't read the website too fast
         navegador.manage().window().maximize(); //tell the code to maximize the window
 
         //navigating to a page of taskit
         navegador.get("http://www.juliodelima.com.br/taskit/");
+    }
+
+    @Test
+    public void testAdicionarUmaInformacaoAdicionalDoUsuario() {
 
         //clicking the link with text "sign in"
         navegador.findElement(By.linkText("Sign in")).click();
@@ -49,8 +57,13 @@ public class informacoesUsuarioTest {
         String textoNoElementoMe = me.getText(); //getText is used to get a text in an element
         assertEquals("Hi, Julio", textoNoElementoMe); //comparating the value in the class "me" with "Hi, Julio"
 
-        //finishing the session
-        navegador.quit();
+    }
 
+    @After
+    public void tearDown () {
+        //finishing the session
+        //"close" closes all windows and tabs
+        //"close" closes only the opened windows by IntellijIdea
+        navegador.quit();
     }
 }
