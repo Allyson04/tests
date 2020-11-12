@@ -96,9 +96,14 @@ public class informacoesUsuarioTest {
     @Test
     public void removeContact() {//remove phone number "1198765-3457"
          navegador.findElement(By.xpath("//span[text()=\"1198765-3457\"]/following-sibling::a")).click();
+         //the following-sibling is used to search for the next a(link) element to appear after the span
+        //with text "1198765-3457"
 
          //confirm the removal
         navegador.switchTo().alert().accept();
+        //switchTo is used to switch of context, here is of website interface to alert
+        //the alert function have many options, try others someday!
+
 
         //validate the message of id "toast-container" presented as "Rest in peace, dear phone!"
          WebElement toastContainer = navegador.findElement(By.id("toast-container"));
@@ -108,6 +113,7 @@ public class informacoesUsuarioTest {
         //wait 10 seconds until the window disappear
         WebDriverWait wait = new WebDriverWait(navegador, 10);
         wait.until(ExpectedConditions.stalenessOf(toastContainer));
+        //staleness means when an element disappears from the code
 
         //log out by clicking textLink "Logout"
         navegador.findElement(By.linkText("Logout")).click();
