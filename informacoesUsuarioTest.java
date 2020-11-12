@@ -63,6 +63,11 @@ public class informacoesUsuarioTest {
         //click the button with "+ADD MORE DATA"
 
         navegador.findElement(By.xpath("//button[@data-target='addmoredata']")).click();
+        //The xpath function lets you to target a specific element with any attributes
+        // such as data-target, multiple classes, element type, etc
+        //the body of it is //element[@attribute="attribute-name"]
+        // the double bar ("//") means to search everywhere in the page
+
 
         //identify the form to store phone number
         WebElement storeDataPhone = navegador.findElement(By.id("addmoredata"));
@@ -72,6 +77,9 @@ public class informacoesUsuarioTest {
 
         //choose value "phone"
         new Select(selectPhone).selectByIndex(1);
+        //here the "new" lets you to make specific functions, like
+        //selecting options in a query, it's possible to use many other types, like by text or by value
+
 
         //type in contact with name "contact"
         storeDataPhone.findElement(By.name("contact")).sendKeys("+5521999999999");
@@ -81,7 +89,7 @@ public class informacoesUsuarioTest {
 
         //check if appears a message with id "toast-container" and text "Your contact has been added!"
         WebElement confirmMessage = navegador.findElement(By.id("toast-container"));
-        String message = confirmMessage.getText();
+        String message = confirmMessage.getText(); //storing definitely the string identified above
         assertEquals("Your contact has been added!", message);
     }
 
