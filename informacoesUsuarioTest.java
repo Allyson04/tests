@@ -7,7 +7,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.concurrent.TimeUnit;
 
@@ -26,10 +28,6 @@ public class informacoesUsuarioTest {
 
         //navigating to a page of taskit
         navegador.get("http://www.juliodelima.com.br/taskit/");
-    }
-
-    @Test
-    public void testAdicionarUmaInformacaoAdicionalDoUsuario() {
 
         //clicking the link with text "sign in"
         navegador.findElement(By.linkText("Sign in")).click();
@@ -59,9 +57,11 @@ public class informacoesUsuarioTest {
         //click the link with text "MORE DATA ABOUT YOU" or search for href "#moredata"
         navegador.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
 
+    }
 
+    //@Test
+    public void testAdicionarUmaInformacaoAdicionalDoUsuario() {
         //click the button with "+ADD MORE DATA"
-
         navegador.findElement(By.xpath("//button[@data-target='addmoredata']")).click();
         //The xpath function lets you to target a specific element with any attributes
         // such as data-target, multiple classes, element type, etc
@@ -91,6 +91,26 @@ public class informacoesUsuarioTest {
         WebElement confirmMessage = navegador.findElement(By.id("toast-container"));
         String message = confirmMessage.getText(); //storing definitely the string identified above
         assertEquals("Your contact has been added!", message);
+    }
+
+    @Test
+    public void removeContact() {//remove phone number "1198765-3457"
+         navegador.findElement(By.xpath("//span[text()=\"1198765-3457\"]/following-sibling::a")).click();
+
+         //confirm the removal
+        navegador.switchTo().alert().accept();
+
+        //validate the message of id "toast-container" presented as "Rest in peace, dear phone!"
+         WebElement toastContainer = navegador.findElement(By.id("toast-container"));
+         String removePhone = toastContainer.getText();
+         assertEquals(removePhone, "Rest in peace, dear phone!");
+
+        //wait 10 seconds until the window disappear
+        WebDriverWait wait = new WebDriverWait(navegador, 10);
+        wait.until(ExpectedConditions.stalenessOf(toastContainer));
+
+        //log out by clicking textLink "Logout"
+        navegador.findElement(By.linkText("Logout")).click();
     }
 
     @After
