@@ -7,6 +7,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.concurrent.TimeUnit;
 
@@ -36,7 +37,7 @@ public class informacoesUsuarioTest {
 
         //identifying the form with id="signinbox"
         WebElement  formularioSignInBox = navegador.findElement(By.id("signinbox"));
-        //the "WebElement" part stores the "variable" "formularioSignInBox",
+        //the "WebElement" part stores the variable "formularioSignInBox",
         // with that this sentence don't need to be repeated over and over
         //also, the objective here is to find an element by his Id, called "signinbox"
 
@@ -52,11 +53,36 @@ public class informacoesUsuarioTest {
         //clicking the link "SIGN IN"
         formularioSignInBox.findElement(By.linkText("SIGN IN")).click();
 
-        //checking text "Hi, Julio" in the class "me"
-        WebElement me = navegador.findElement(By.className("me"));
-        String textoNoElementoMe = me.getText(); //getText is used to get a text in an element
-        assertEquals("Hi, Julio", textoNoElementoMe); //comparating the value in the class "me" with "Hi, Julio"
+        //click the link with text "Hi, Julio" or class 'me'
+        navegador.findElement(By.linkText("Hi, Julio")).click();
 
+        //click the link with text "MORE DATA ABOUT YOU" or search for href "#moredata"
+        navegador.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
+
+
+        //click the button with "+ADD MORE DATA"
+
+        navegador.findElement(By.xpath("//button[@data-target='addmoredata']")).click();
+
+        //identify the form to store phone number
+        WebElement storeDataPhone = navegador.findElement(By.id("addmoredata"));
+
+        //click form with name "type"
+        WebElement selectPhone = storeDataPhone.findElement(By.name("type"));
+
+        //choose value "phone"
+        new Select(selectPhone).selectByIndex(1);
+
+        //type in contact with name "contact"
+        storeDataPhone.findElement(By.name("contact")).sendKeys("+5521999999999");
+
+        //click button with text "SAVE"
+        storeDataPhone.findElement(By.linkText("SAVE")).click();
+
+        //check if appears a message with id "toast-container" and text "Your contact has been added!"
+        WebElement confirmMessage = navegador.findElement(By.id("toast-container"));
+        String message = confirmMessage.getText();
+        assertEquals("Your contact has been added!", message);
     }
 
     @After
